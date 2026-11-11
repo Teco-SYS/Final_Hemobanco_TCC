@@ -1,59 +1,43 @@
-# Hemobanco (React)
+# Hemobanco (React) + API SQLite
 
-Sistema de hemocentro da RMSP feito com **React + Vite**.
+Frontend React/Vite integrado à API Express + SQLite do TCC.
 
-## Como rodar
+## Subir o backend (obrigatório)
+
+```bash
+cd hemobanco-tcc-main   # pasta da API
+npm install
+npx knex migrate:latest
+npx knex seed:run
+npm run dev
+# API em http://localhost:3000
+```
+
+## Subir o frontend
 
 ```bash
 cd hemobanco-react-app
 npm install
 npm run dev
+# http://localhost:5173
 ```
 
-Abra o endereço que aparecer no terminal (geralmente http://localhost:5173).
+## Login
 
-## Build de produção
+| Aba | Como entrar |
+|-----|-------------|
+| **Hemocentro** | qualquer e-mail/senha (opcionalmente e-mail de uma instituição do seed) |
+| **Colaborador** | matrícula do seed: `FUNC-0001` … `FUNC-0004` (+ qualquer senha) |
 
-```bash
-npm run build
-npm run preview
-```
+Colaborador é necessário para **registrar doações** (`funcionario_id`).
 
-## Estrutura
+## Alinhamento com o banco
 
-```
-src/
-  App.jsx                 # login + navegação
-  components/
-    Login.jsx             # tela de login (2 colunas)
-    AppShell.jsx          # sidebar + layout
-  pages/
-    Painel.jsx
-    CadastroDoadores.jsx
-    CadastroDoacao.jsx
-    DoadoresBloqueados.jsx
-    Declaracoes.jsx
-    Notificacoes.jsx
-  lib/
-    storage.js            # localStorage
-    utils.js              # CPF, datas, protocolo
-public/img/               # coloque Doando-sangue.png aqui
-```
+| Tela front | Tabelas API |
+|------------|-------------|
+| Cadastro de doadores | `enderecos` + `doadores` (+ `tipos_sanguineos`) |
+| Cadastro de doação | `doacoes` (valida bloqueio e intervalo no backend) |
+| Doadores bloqueados | `situacoes` com `tipo_bloqueio_id` |
+| Login colaborador | `funcionarios` por `matricula` |
 
-## Imagem do login
-
-Coloque a imagem em:
-
-```
-public/img/Doando-sangue.png
-```
-
-## Funcionalidades
-
-- Login empresa / doador
-- Cadastro de doadores e doações
-- Bloqueios (adicionar, pesquisar, remover)
-- Geração de declaração com protocolo, impressão/PDF e download
-- Notificações da rede RMSP
-
-Dados ficam no `localStorage` do navegador.
+CPF no banco: **11 dígitos sem máscara**. Tipo sanguíneo: `A+`, `A-`, etc. (não separado de RH).

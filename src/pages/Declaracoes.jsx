@@ -1,6 +1,15 @@
-import { useState } from 'react'
-import { HEMOCENTROS, pushDeclaracao } from '../lib/storage'
+import { useEffect, useState } from 'react'
+import { doadoresApi } from '../lib/api'
 import { formatDate, gerarProtocolo, maskCpf, todayIso } from '../lib/utils'
+
+const HEMOCENTROS_FALLBACK_FALLBACK = [
+  'Fundação Pró-Sangue - Posto Clínicas',
+  'Fundação Pró-Sangue - Dante Pazzanese',
+  'Hemocentro Regional de Osasco',
+  'Hemocentro do ABC',
+  'Hemocentro de Guarulhos',
+  'Hemocentro de São Bernardo',
+]
 
 function montarHtml(d) {
   const tipoTexto =
@@ -81,10 +90,18 @@ export default function Declaracoes() {
     nome: '',
     data: todayIso(),
     tipo: 'Sangue total',
-    hemocentro: HEMOCENTROS[0],
+    hemocentro: HEMOCENTROS_FALLBACK[0],
   })
   const [doc, setDoc] = useState(null)
   const [alert, setAlert] = useState(null)
+
+  // autocomplete nome a partir do CPF no banco
+  useEffect(() => {
+    doadoresApi.listar().then((lista) => {
+      window.__hb_doadores = lista || []
+    }).catch(() => {})
+  }, [])
+
 
   function onChange(field) {
     return (e) => {
@@ -104,7 +121,11 @@ export default function Declaracoes() {
       protocolo: gerarProtocolo(),
       emissao: new Date().toLocaleString('pt-BR'),
     }
-    pushDeclaracao(gerado)
+    try {
+      const hist = JSON.parse(localStorage.getItem('hemobanco_declaracoes') || '[]')
+      hist.unshift(gerado)
+      localStorage.setItem('hemobanco_declaracoes', JSON.stringify(hist.slice(0, 50)))
+    } catch (_) {}
     setDoc(gerado)
     setAlert({
       kind: 'success',
@@ -183,7 +204,7 @@ export default function Declaracoes() {
           <div className="form-group">
             <label>Hemocentro / Posto</label>
             <select value={form.hemocentro} onChange={onChange('hemocentro')}>
-              {HEMOCENTROS.map((h) => (
+              {HEMOCENTROS_FALLBACK.map((h) => (
                 <option key={h}>{h}</option>
               ))}
             </select>

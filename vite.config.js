@@ -6,5 +6,13 @@ export default defineConfig({
   server: {
     port: 5173,
     open: true,
+    proxy: {
+      // encaminha /api/* para o backend Express na porta 3000
+      '/api': {
+        target: 'http://localhost:3000',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ''),
+      },
+    },
   },
 })

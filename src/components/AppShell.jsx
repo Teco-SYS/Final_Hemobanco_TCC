@@ -15,7 +15,7 @@ export default function AppShell({ user, page, onNavigate, onLogout, children })
           <div className="user-avatar">{(user?.nome || 'U').charAt(0).toUpperCase()}</div>
           <div className="user-info">
             <h3>{user?.nome || 'Usuário'}</h3>
-            <span>{user?.tipo === 'empresa' ? 'Empresa / Hemocentro' : 'Doador'}</span>
+            <span>{user?.tipo === 'empresa' ? 'Hemocentro' : user?.tipo === 'colaborador' ? 'Colaborador' : 'Usuário'}</span>
           </div>
         </div>
 
