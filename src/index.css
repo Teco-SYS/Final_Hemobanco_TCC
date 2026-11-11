@@ -1,0 +1,1131 @@
+/* ========================================
+   HEMOBANCO - Estilos Principais
+   ======================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+#root {
+    min-height: 100vh;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f5f5f5;
+    color: #333;
+    min-height: 100vh;
+}
+
+/* ========================================
+   SISTEMA DE ÍCONES E IMAGENS
+   ========================================
+
+   === ÍCONES (emoji / texto) ===
+   No HTML use sempre:
+     <span class="i i-blood"></span>
+     <span class="i i-home i-lg"></span>
+
+   Tamanhos: i-sm | i-md | i-lg | i-xl
+
+   Lista de ícones (para criar um novo, copie uma linha
+   em "Definição dos ícones" e troque o nome + o desenho):
+
+     i-blood   gota de sangue
+     i-home    início / painel
+     i-user    usuário / doador
+     i-block   bloqueado
+     i-doc     documento / declaração
+     i-bell    notificação
+     i-exit    sair
+     i-pin     localização
+     i-cross   cruz / logo
+     i-print   imprimir
+     i-search  pesquisar
+     i-check   sucesso / ok
+     i-alert   alerta
+     i-plus    adicionar
+     i-calendar calendário
+
+   === IMAGENS (PNG, JPG, SVG, WebP) ===
+   1. Coloque o arquivo na pasta:  img/
+      exemplo: img/gota.png   img/logo.svg
+
+   2. No HTML use:
+      <img class="img-icon" src="img/gota.png" alt="">
+      <img class="img-icon img-lg" src="img/logo.svg" alt="Logo">
+
+   Tamanhos de imagem: img-sm | img-md | img-lg | img-xl
+   ======================================== */
+
+/* ----- Ícones base ----- */
+.i {
+    display: inline-block;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    vertical-align: middle;
+}
+
+.i::before {
+    display: inline-block;
+}
+
+/* Tamanhos dos ícones */
+.i-sm  { font-size: 0.85em; }
+.i-md  { font-size: 1.15em; }
+.i-lg  { font-size: 1.5em; }
+.i-xl  { font-size: 2em; }
+
+/* Definição dos ícones
+   Para trocar o desenho: mude só o que está entre aspas.
+   Para criar um novo: copie uma linha e altere o nome da classe. */
+.i-blood::before    { content: "🩸"; }
+.i-home::before     { content: "🏠"; }
+.i-user::before     { content: "👤"; }
+.i-block::before    { content: "🚫"; }
+.i-doc::before      { content: "📄"; }
+.i-bell::before     { content: "🔔"; }
+.i-exit::before     { content: "↩"; }
+.i-pin::before      { content: "📍"; }
+.i-cross::before    { content: "✚"; }
+.i-print::before    { content: "🖨"; }
+.i-search::before   { content: "🔍"; }
+.i-check::before    { content: "✅"; }
+.i-alert::before    { content: "⚠️"; }
+.i-plus::before     { content: "➕"; }
+.i-calendar::before { content: "📅"; }
+
+/* ----- Imagens (arquivos em /img)  ----- */
+.img-icon {
+    display: inline-block;
+    width: 1.25em;
+    height: 1.25em;
+    object-fit: contain;
+    vertical-align: middle;
+}
+
+.img-sm { width: 0.9em;  height: 0.9em; }
+.img-md { width: 1.4em;  height: 1.4em; }
+.img-lg { width: 2em;    height: 2em; }
+.img-xl { width: 3em;    height: 3em; }
+
+/* Se quiser usar uma IMAGEM no lugar do emoji de um ícone,
+   descomente e ajuste o caminho (exemplo para i-blood):
+*/
+.i-logo::before {
+    content: "";
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    background: url("img/Logo-transparente.png") center / contain no-repeat;
+}
+
+/* ========== LOGIN ========== */
+.login-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 24px;
+    background: linear-gradient(135deg, #6b0f1a 0%, #8b1a2b 50%, #4a0a12 100%);
+}
+
+/* Card em duas colunas: imagem | formulário */
+.login-container {
+    display: flex;
+    width: 100%;
+    max-width: 1200px;
+    min-height: 520px;
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 14px 48px rgba(0, 0, 0, 0.35);
+    overflow: hidden;
+}
+
+/* ===== Coluna esquerda (imagem) ===== */
+.login-visual {
+    position: relative;
+    flex: 1 1 48%;
+    min-height: 280px;
+    background: linear-gradient(160deg, #6b0f1a 0%, #4a0a12 100%);
+    overflow: hidden;
+}
+
+.login-visual-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.login-visual-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 28px;
+    background: linear-gradient(to top, rgba(40, 8, 12, 0.75) 0%, rgba(40, 8, 12, 0.15) 55%, transparent 100%);
+    color: #fff;
+    pointer-events: none;
+}
+
+.login-visual-overlay h2 {
+    font-size: 26px;
+    font-weight: 700;
+    margin: 8px 0 6px;
+}
+
+.login-visual-overlay p {
+    font-size: 14px;
+    line-height: 1.45;
+    opacity: 0.92;
+    max-width: 280px;
+}
+
+/* ===== Coluna direita (formulário) ===== */
+.login-panel {
+    flex: 1 1 52%;
+    padding: 40px 36px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: 26px;
+}
+
+.login-header .logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.login-header .logo-icon,
+.login-header .i-blood {
+    font-size: 32px;
+    color: #8b1a2b;
+}
+
+.login-header h1 {
+    color: #8b1a2b;
+    font-size: 28px;
+    font-weight: 700;
+}
+
+.login-header p {
+    color: #666;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.login-tabs {
+    display: flex;
+    margin-bottom: 25px;
+    border-bottom: 2px solid #eee;
+}
+
+.login-tab {
+    flex: 1;
+    padding: 12px;
+    text-align: center;
+    cursor: pointer;
+    font-weight: 600;
+    color: #888;
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s;
+}
+
+.login-tab.active {
+    color: #8b1a2b;
+    border-bottom-color: #8b1a2b;
+}
+
+.login-form {
+    display: none;
+}
+
+.login-form.active {
+    display: block;
+}
+
+.form-group {
+    margin-bottom: 18px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 6px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 11px 14px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: border-color 0.2s;
+    background: #fafafa;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #8b1a2b;
+    background: #fff;
+}
+
+.btn-primary {
+    width: 100%;
+    padding: 13px;
+    background: #8b1a2b;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-primary:hover {
+    background: #6b0f1a;
+}
+
+.login-footer {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 13px;
+    color: #888;
+}
+
+/* Login responsivo: empilha em telas estreitas */
+@media (max-width: 768px) {
+    .login-container {
+        flex-direction: column;
+        max-width: 440px;
+        min-height: auto;
+    }
+
+    .login-visual {
+        min-height: 180px;
+        flex: 0 0 auto;
+    }
+
+    .login-panel {
+        padding: 28px 22px 32px;
+    }
+}
+
+/* ========== LAYOUT PRINCIPAL ========== */
+.app-layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 260px;
+    background: #6b0f1a;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 100;
+}
+
+.sidebar-header {
+    padding: 20px 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-header .user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6b0f1a;
+    font-weight: 700;
+    font-size: 16px;
+}
+
+.sidebar-header .user-info h3 {
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.sidebar-header .user-info span {
+    font-size: 11px;
+    opacity: 0.7;
+}
+
+.sidebar-nav {
+    flex: 1;
+    padding: 15px 0;
+    overflow-y: auto;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 13px 22px;
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+    border-left: 4px solid transparent;
+}
+
+.nav-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff;
+}
+
+.nav-item.active {
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+    border-left-color: #fff;
+    font-weight: 600;
+}
+
+.nav-item .icon {
+    font-size: 18px;
+    width: 22px;
+    text-align: center;
+}
+
+.sidebar-footer {
+    padding: 15px 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.btn-sair {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 11px 16px;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 6px;
+    color: #fff;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-sair:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Conteúdo principal */
+.main-content {
+    flex: 1;
+    margin-left: 260px;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.top-bar {
+    background: #6b0f1a;
+    color: #fff;
+    padding: 12px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.top-bar .region {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 6px 14px;
+    border-radius: 20px;
+}
+
+.top-bar .region .badge {
+    background: #c9a227;
+    color: #333;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 10px;
+}
+
+.top-bar .brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 700;
+    font-size: 18px;
+}
+
+.top-bar .brand .cross {
+    color: #fff;
+    font-size: 22px;
+}
+
+.content-area {
+    flex: 1;
+    padding: 30px 40px;
+    background: #fff;
+}
+
+.page-title {
+    text-align: center;
+    color: #6b0f1a;
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 30px;
+}
+
+.page-subtitle {
+    text-align: center;
+    color: #666;
+    font-size: 14px;
+    margin-top: -20px;
+    margin-bottom: 30px;
+}
+
+/* Logo no topo do conteúdo */
+.content-logo {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.content-logo .drop,
+.content-logo .i-blood {
+    font-size: 28px;
+    color: #8b1a2b;
+}
+
+.content-logo span {
+    font-size: 14px;
+    color: #8b1a2b;
+    font-weight: 600;
+}
+
+/* ========== PAINEL DE CONTROLE ========== */
+.info-box {
+    background: #fdf6e9;
+    border: 1px solid #e8d5a3;
+    border-radius: 8px;
+    padding: 18px 22px;
+    margin-bottom: 30px;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #555;
+}
+
+.info-box strong {
+    color: #6b0f1a;
+}
+
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+.card {
+    background: #fff;
+    border: 1px solid #e8e8e8;
+    border-radius: 10px;
+    padding: 25px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.card:hover {
+    border-color: #8b1a2b;
+    box-shadow: 0 4px 15px rgba(139, 26, 43, 0.15);
+    transform: translateY(-2px);
+}
+
+.card .card-icon,
+.card .i {
+    font-size: 32px;
+    color: #8b1a2b;
+    margin-bottom: 12px;
+}
+
+.card h3 {
+    color: #6b0f1a;
+    font-size: 15px;
+    margin-bottom: 8px;
+}
+
+.card p {
+    color: #777;
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+/* ========== FORMULÁRIOS ========== */
+.form-container {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.form-row {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 18px;
+}
+
+.form-row .form-group {
+    flex: 1;
+    margin-bottom: 0;
+}
+
+.form-actions {
+    text-align: center;
+    margin-top: 25px;
+}
+
+.btn {
+    padding: 12px 32px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-dark {
+    background: #6b0f1a;
+    color: #fff;
+}
+
+.btn-dark:hover {
+    background: #4a0a12;
+}
+
+.btn-outline {
+    background: transparent;
+    border: 1px solid #6b0f1a;
+    color: #6b0f1a;
+}
+
+.btn-outline:hover {
+    background: #6b0f1a;
+    color: #fff;
+}
+
+/* ========== TABELAS ========== */
+.table-container {
+    overflow-x: auto;
+    margin-top: 25px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+thead {
+    background: #6b0f1a;
+    color: #fff;
+}
+
+thead th {
+    padding: 12px 14px;
+    text-align: left;
+    font-weight: 600;
+}
+
+tbody tr {
+    border-bottom: 1px solid #eee;
+}
+
+tbody tr:hover {
+    background: #f9f9f9;
+}
+
+tbody td {
+    padding: 12px 14px;
+    vertical-align: middle;
+}
+
+.badge-motivo {
+    display: inline-block;
+    background: #fde8e8;
+    color: #c0392b;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+/* ========== NOTIFICAÇÕES ========== */
+.notifications-list {
+    max-width: 750px;
+    margin: 0 auto;
+}
+
+.notification-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    background: #f0f4f8;
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin-bottom: 10px;
+    border-left: 4px solid #6b0f1a;
+}
+
+.notification-item .num {
+    font-weight: 700;
+    color: #6b0f1a;
+    min-width: 20px;
+}
+
+.notification-item .text {
+    flex: 1;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #333;
+}
+
+.notification-item .tag {
+    background: #6b0f1a;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+}
+
+/* ========== DECLARAÇÕES ========== */
+.declaracao-preview {
+    background: #fafafa;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 30px;
+    max-width: 600px;
+    margin: 20px auto;
+    text-align: center;
+}
+
+.declaracao-preview h3 {
+    color: #6b0f1a;
+    margin-bottom: 15px;
+}
+
+.declaracao-preview p {
+    font-size: 14px;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 10px;
+}
+
+/* ========== MENSAGENS ========== */
+.alert {
+    padding: 12px 18px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    display: none;
+}
+
+.alert-success {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.alert-error {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.alert.show {
+    display: block;
+}
+
+/* ========== UTILITÁRIOS ========== */
+.hidden {
+    display: none !important;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.mt-20 {
+    margin-top: 20px;
+}
+
+/* ========== RESPONSIVO ========== */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+    }
+
+    .main-content {
+        margin-left: 0;
+    }
+
+    .form-row {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .cards-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .content-area {
+        padding: 20px 15px;
+    }
+}
+
+/* Garante que a tela do app ocupe a tela inteira */
+#tela-app {
+    min-height: 100vh;
+}
+#tela-app:not(.hidden) {
+    display: block;
+}
+
+
+
+/* Cards na tela de bloqueados */
+.bloqueio-card {
+    background: #fff;
+    border: 1px solid #e8e0dc;
+    border-radius: 10px;
+    padding: 22px 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    max-width: 720px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.section-subtitle {
+    color: #6b0f1a;
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-remover {
+    background: transparent;
+    border: none;
+    color: #888;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 6px 10px;
+    border-radius: 6px;
+    transition: all 0.15s;
+}
+
+.btn-remover:hover {
+    background: #fde8e8;
+    color: #c0392b;
+}
+
+
+/* ===== Documento de declaração ===== */
+.declaracao-preview {
+    max-width: 720px;
+    margin: 28px auto 0;
+}
+
+.declaracao-documento {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 36px 40px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    font-family: Georgia, 'Times New Roman', serif;
+    color: #222;
+}
+
+.decl-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 8px;
+}
+
+.decl-logo {
+    font-size: 36px;
+    line-height: 1;
+}
+
+.decl-header h3 {
+    margin: 0;
+    font-size: 22px;
+    color: #6b0f1a;
+    letter-spacing: 0.04em;
+}
+
+.decl-sub {
+    margin: 2px 0;
+    font-size: 12px;
+    color: #666;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+.decl-line {
+    border: none;
+    border-top: 2px solid #6b0f1a;
+    margin: 16px 0 20px;
+}
+
+.decl-title {
+    text-align: center;
+    font-size: 15px;
+    letter-spacing: 0.06em;
+    color: #6b0f1a;
+    margin: 0 0 8px;
+}
+
+.decl-protocolo {
+    text-align: center;
+    font-size: 13px;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    margin-bottom: 22px;
+}
+
+.decl-#root {
+    min-height: 100vh;
+}
+
+body {
+    text-align: center;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+.decl-body p {
+    margin: 6px 0;
+}
+
+.decl-destaque {
+    font-size: 20px;
+    font-weight: 700;
+    color: #6b0f1a;
+    margin: 14px 0 !important;
+}
+
+.decl-texto-final {
+    margin-top: 22px !important;
+    text-align: justify;
+    font-size: 13px;
+    color: #444;
+}
+
+.decl-footer {
+    margin-top: 36px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.decl-assinatura {
+    margin: 36px auto 8px;
+    width: 260px;
+}
+
+.decl-linha-assinatura {
+    border-top: 1px solid #333;
+    margin-bottom: 8px;
+}
+
+.decl-rodape {
+    margin-top: 28px;
+    font-size: 11px;
+    color: #888;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+@media print {
+    body * {
+        visibility: hidden;
+    }
+    #declaracao-documento,
+    #declaracao-documento * {
+        visibility: visible;
+    }
+    #declaracao-documento {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        border: none;
+        box-shadow: none;
+    }
+    .no-print,
+    .sidebar,
+    .top-bar,
+    .nav-item,
+    .btn-sair {
+        display: none !important;
+    }
+}
+
+
+/* ===== Mapa RMSP (painel) ===== */
+.mapa-rmsp-wrap {
+    max-width: 920px;
+    margin: 24px auto 28px;
+    background: #fff;
+    border: 1px solid #e8e0dc;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+    overflow: hidden;
+}
+
+.mapa-rmsp-header {
+    padding: 16px 18px 8px;
+}
+
+.mapa-rmsp-header h3 {
+    margin: 0 0 4px;
+    color: #6b0f1a;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.mapa-rmsp-header p {
+    margin: 0;
+    color: #777;
+    font-size: 13px;
+}
+
+.mapa-rmsp {
+    height: 360px;
+    width: 100%;
+    background: #ece8e6;
+    position: relative;
+    z-index: 0;
+}
+
+.mapa-rmsp-fallback {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #888;
+    font-size: 14px;
+    pointer-events: none;
+}
+
+.hb-map-pin {
+    background: transparent !important;
+    border: none !important;
+}
+
+.hb-map-pin-dot {
+    display: block;
+    width: 16px;
+    height: 16px;
+    margin: 3px;
+    border-radius: 50%;
+    background: #8b1a2b;
+    border: 2px solid #fff;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.35);
+    cursor: pointer;
+    transition: transform 0.15s ease;
+}
+
+.hb-map-pin:hover .hb-map-pin-dot {
+    transform: scale(1.25);
+    background: #6b0f1a;
+}
+
+.hb-map-tooltip {
+    background: #3a1016 !important;
+    color: #fff !important;
+    border: none !important;
+    border-radius: 8px !important;
+    padding: 8px 12px !important;
+    font-size: 12px !important;
+    line-height: 1.4 !important;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.25) !important;
+    max-width: 260px;
+}
+
+.leaflet-tooltip-top.hb-map-tooltip::before {
+    border-top-color: #3a1016 !important;
+}
+
+.mapa-rmsp-legend {
+    list-style: none;
+    margin: 0;
+    padding: 12px 16px 16px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 6px 14px;
+    border-top: 1px solid #f0e8e6;
+    background: #faf8f7;
+}
+
+.mapa-rmsp-legend li {
+    font-size: 12px;
+    color: #555;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    line-height: 1.35;
+}
+
+.mapa-rmsp-legend .legend-dot {
+    flex-shrink: 0;
+    width: 9px;
+    height: 9px;
+    margin-top: 3px;
+    border-radius: 50%;
+    background: #8b1a2b;
+}
+
+@media (max-width: 640px) {
+    .mapa-rmsp {
+        height: 280px;
+    }
+    .mapa-rmsp-legend {
+        grid-template-columns: 1fr;
+    }
+}

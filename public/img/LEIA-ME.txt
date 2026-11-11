@@ -1,0 +1,9 @@
+PASTA DE IMAGENS DO HEMOBANCO
+=============================
+
+Imagem da tela de login (coluna esquerda):
+  Coloque o arquivo com o nome usado no index.html:
+  img/Doando-sangue.png
+
+Outros ícones/imagens:
+  Use: <img class="img-icon" src="img/seu-arquivo.png" alt="">
