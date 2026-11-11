@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import { doadoresApi } from '../lib/api'
-import { formatDate, gerarProtocolo, maskCpf, todayIso } from '../lib/utils'
+import { digits, formatDate, gerarProtocolo, maskCpf, todayIso } from '../lib/utils'
 
-const HEMOCENTROS_FALLBACK_FALLBACK = [
+const HEMOCENTROS = [
   'Fundação Pró-Sangue - Posto Clínicas',
   'Fundação Pró-Sangue - Dante Pazzanese',
   'Hemocentro Regional de Osasco',
@@ -31,9 +31,7 @@ function montarHtml(d) {
     padding: 32px 28px;
     line-height: 1.55;
   }
-  .header { display: flex; gap: 16px; align-items: center; margin-bottom: 12px; }
-  .logo { font-size: 36px; }
-  h1 { margin: 0; font-size: 22px; color: #6b0f1a; letter-spacing: 0.04em; }
+  h1 { margin: 0; font-size: 22px; color: #6b0f1a; }
   .sub { margin: 2px 0; font-size: 12px; color: #666; font-family: Arial, sans-serif; }
   hr { border: none; border-top: 2px solid #6b0f1a; margin: 16px 0 20px; }
   h2 { text-align: center; font-size: 16px; letter-spacing: 0.06em; margin: 0 0 8px; color: #6b0f1a; }
@@ -48,12 +46,10 @@ function montarHtml(d) {
 </style>
 </head>
 <body>
-  <div class="header">
-    <div>
-      <h1>HEMOBANCO</h1>
-      <p class="sub">Rede Metropolitana de São Paulo — RMSP</p>
-      <p class="sub">Sistema unificado de doadores de sangue e hemocomponentes</p>
-    </div>
+  <div>
+    <h1>HEMOBANCO</h1>
+    <p class="sub">Rede Metropolitana de São Paulo — RMSP</p>
+    <p class="sub">Sistema unificado de doadores de sangue e hemocomponentes</p>
   </div>
   <hr>
   <h2>DECLARAÇÃO DE DOAÇÃO / COMPARECIMENTO</h2>
@@ -62,13 +58,11 @@ function montarHtml(d) {
     <p>Declaramos, para os devidos fins, que o(a) Sr(a).</p>
     <p class="nome">${d.nome}</p>
     <p>portador(a) do CPF nº <strong>${d.cpf}</strong>,</p>
-    <p>compareceu e realizou <strong>${tipoTexto}</strong></p>
-    <p>na data de <strong>${formatDate(d.data)}</strong>,</p>
-    <p>no estabelecimento <strong>${d.hemocentro}</strong>.</p>
+    <p>compareceu em <strong>${formatDate(d.data)}</strong> ao posto <strong>${d.hemocentro}</strong></p>
+    <p>para fins de <strong>${tipoTexto}</strong>.</p>
     <p class="final">
-      Esta declaração é emitida pelo sistema Hemobanco e serve como comprovante
-      oficial de comparecimento/doação junto à rede de hemocentros da
-      Região Metropolitana de São Paulo.
+      Esta declaração é válida como comprovante oficial de comparecimento/doação
+      junto à rede de hemocentros da Região Metropolitana de São Paulo.
     </p>
   </div>
   <div class="footer">
@@ -90,23 +84,30 @@ export default function Declaracoes() {
     nome: '',
     data: todayIso(),
     tipo: 'Sangue total',
-    hemocentro: HEMOCENTROS_FALLBACK[0],
+    hemocentro: HEMOCENTROS[0],
   })
   const [doc, setDoc] = useState(null)
   const [alert, setAlert] = useState(null)
+  const [doadores, setDoadores] = useState([])
 
-  // autocomplete nome a partir do CPF no banco
   useEffect(() => {
-    doadoresApi.listar().then((lista) => {
-      window.__hb_doadores = lista || []
-    }).catch(() => {})
+    doadoresApi
+      .listar()
+      .then((lista) => setDoadores(lista || []))
+      .catch(() => {})
   }, [])
-
 
   function onChange(field) {
     return (e) => {
       const value = field === 'cpf' ? maskCpf(e.target.value) : e.target.value
-      setForm((f) => ({ ...f, [field]: value }))
+      setForm((f) => {
+        const next = { ...f, [field]: value }
+        if (field === 'cpf') {
+          const found = doadores.find((d) => digits(d.cpf) === digits(value))
+          if (found) next.nome = found.nome
+        }
+        return next
+      })
     }
   }
 
@@ -204,8 +205,10 @@ export default function Declaracoes() {
           <div className="form-group">
             <label>Hemocentro / Posto</label>
             <select value={form.hemocentro} onChange={onChange('hemocentro')}>
-              {HEMOCENTROS_FALLBACK.map((h) => (
-                <option key={h}>{h}</option>
+              {HEMOCENTROS.map((h) => (
+                <option key={h} value={h}>
+                  {h}
+                </option>
               ))}
             </select>
           </div>
@@ -218,42 +221,32 @@ export default function Declaracoes() {
       </div>
 
       {doc ? (
-        <div className="declaracao-preview">
-          <div className="declaracao-documento" id="declaracao-documento">
-            <div className="decl-header">
-              <div>
-                <h3>HEMOBANCO</h3>
-                <p className="decl-sub">Rede Metropolitana de São Paulo — RMSP</p>
-                <p className="decl-sub">Sistema unificado de doadores de sangue e hemocomponentes</p>
-              </div>
-            </div>
-            <hr className="decl-line" />
-            <h4 className="decl-title">DECLARAÇÃO DE DOAÇÃO / COMPARECIMENTO</h4>
-            <p className="decl-protocolo">
-              Protocolo: <strong>{doc.protocolo}</strong>
-            </p>
-            <div className="decl-body">
+        <div className="form-container" style={{ marginTop: 24 }}>
+          <div className="declaracao-preview">
+            <div className="decl-doc">
+              <h3>HEMOBANCO</h3>
+              <p className="decl-sub">Rede Metropolitana de São Paulo — RMSP</p>
+              <hr />
+              <h4>DECLARAÇÃO DE DOAÇÃO / COMPARECIMENTO</h4>
+              <p className="decl-protocolo">
+                Protocolo: <strong>{doc.protocolo}</strong>
+              </p>
               <p>Declaramos, para os devidos fins, que o(a) Sr(a).</p>
-              <p className="decl-destaque">{doc.nome}</p>
+              <p className="decl-nome">{doc.nome}</p>
               <p>
                 portador(a) do CPF nº <strong>{doc.cpf}</strong>,
               </p>
               <p>
-                compareceu e realizou <strong>{tipoTexto}</strong>
+                compareceu em <strong>{formatDate(doc.data)}</strong> ao posto{' '}
+                <strong>{doc.hemocentro}</strong>
               </p>
               <p>
-                na data de <strong>{formatDate(doc.data)}</strong>,
+                para fins de <strong>{tipoTexto}</strong>.
               </p>
-              <p>
-                no estabelecimento <strong>{doc.hemocentro}</strong>.
+              <p className="decl-final">
+                Esta declaração é válida como comprovante oficial de comparecimento/doação junto à
+                rede de hemocentros da Região Metropolitana de São Paulo.
               </p>
-              <p className="decl-texto-final">
-                Esta declaração é emitida pelo sistema Hemobanco e serve como comprovante oficial de
-                comparecimento/doação junto à rede de hemocentros da Região Metropolitana de São
-                Paulo.
-              </p>
-            </div>
-            <div className="decl-footer">
               <p>
                 Documento emitido em <strong>{doc.emissao}</strong>
               </p>
@@ -269,10 +262,10 @@ export default function Declaracoes() {
           </div>
           <div className="form-actions mt-20 no-print">
             <button type="button" className="btn btn-dark" onClick={imprimir}>
-              🖨 Imprimir / Salvar PDF
+              Imprimir / Salvar PDF
             </button>
             <button type="button" className="btn btn-outline" style={{ marginLeft: 10 }} onClick={baixar}>
-              ⬇ Baixar declaração
+              Baixar declaração
             </button>
           </div>
         </div>
